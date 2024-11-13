@@ -42,4 +42,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function scopeFilter($query, array $filters){
+        if(null !== ($filters['search_filed'] ?? null)){
+            $query->where('name','like','%'.request('search_filed').'%');
+        }
+    }
+
+    public function listings(){
+        return $this->hasMany(Listing::class);
+    }
 }
